@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTI Master Prospecting War Room | Atlanta F1000</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+ctideep: '#0B1120',
+ctiblue: '#2563EB',
+cticyan: '#06B6D4',
+ctiorange: '#F97316',
+ctiagile: '#10B981',
+ctibg: '#F8FAFC',
+ctisurface: '#FFFFFF'
+},
+fontFamily: {
+sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+}
+}
+}
+}
+</script>
+<style>
+body { background-color: #0F172A; color: #F8FAFC; }
+.chart-container { position: relative; width: 100%; height: 450px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+.small-chart-container { position: relative; width: 100%; height: 220px; max-width: 300px; margin-left: auto; margin-right: auto; }
+.radar-container { position: relative; width: 100%; height: 350px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+</head>
+<body class="antialiased selection:bg-cticyan selection:text-ctideep">
+
+<nav class="bg-ctideep text-white sticky top-0 z-50 shadow-2xl border-b border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-ctiblue text-white font-black text-xl flex items-center justify-center rounded border border-cticyan shadow-[0_0_10px_rgba(6,182,212,0.5)]">
+CTI
+</div>
+<span class="font-bold text-xl tracking-tight text-white">Master War Room: <span class="text-cticyan font-medium">Atlanta F1000</span></span>
+</div>
+<div class="hidden lg:flex gap-3 text-xs font-bold tracking-widest uppercase text-slate-300">
+<span class="bg-slate-800 px-3 py-1.5 rounded border border-slate-700 text-cticyan">Engineering-First</span>
+<span class="bg-slate-800 px-3 py-1.5 rounded border border-slate-700 text-ctiorange">Massive Footprint</span>
+<span class="bg-slate-800 px-3 py-1.5 rounded border border-slate-700 text-ctiagile">APEx Certified</span>
+</div>
+</div>
+</div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+
+<header class="text-center max-w-4xl mx-auto mb-8">
+<h1 class="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight leading-tight">Dominate the Enterprise <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-cticyan to-ctiblue">Division of Labor</span></h1>
+<p class="text-lg md:text-xl text-slate-400 leading-relaxed font-medium">
+Atlanta hosts over 50 Fortune 1000 HQs and Mega-Hubs. The CTI Difference is clear: We are an engineering-first company with a massive footprint actively supporting Fortune 250, 500, and 1000 clients. We leverage offsite Rack Fabrication to deploy flawlessly and bridge the silos of IT, Facilities, and Operations.
+</p>
+</header>
+
+<section class="bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 overflow-hidden">
+<div class="bg-slate-950 border-b border-slate-800 px-8 py-5">
+<h2 class="text-2xl font-black text-white flex items-center gap-3">
+<span class="text-3xl">🌍</span> The CTI Scale Advantage
+</h2>
+</div>
+<div class="p-8 md:p-10">
+<p class="mb-10 text-slate-300 text-lg max-w-4xl text-center mx-auto">
+Enterprise buyers purchase scale and risk mitigation. Our massive footprint across Fortune 250, 500, and 1000 portfolios proves that our engineering-first model is exactly what the modern enterprise demands to standardize their global footprint.
+</p>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+<div class="lg:col-span-4 space-y-4">
+<div class="bg-ctideep text-white p-6 rounded-2xl border-l-4 border-cticyan shadow-lg">
+<div class="text-5xl font-black mb-1">42</div>
+<div class="text-sm font-bold uppercase tracking-widest text-slate-400">Global Offices</div>
+</div>
+<div class="bg-ctideep text-white p-6 rounded-2xl border-l-4 border-ctiblue shadow-lg">
+<div class="text-5xl font-black mb-1">$400M</div>
+<div class="text-sm font-bold uppercase tracking-widest text-slate-400">2025 Run Rate</div>
+</div>
+<div class="bg-ctideep text-white p-6 rounded-2xl border-l-4 border-ctiorange shadow-lg">
+<div class="text-5xl font-black mb-1">1,125+</div>
+<div class="text-sm font-bold uppercase tracking-widest text-slate-400">AV/IT Experts</div>
+</div>
+</div>
+
+<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-slate-950 rounded-2xl p-6 border border-slate-800 shadow-inner flex flex-col items-center">
+<h3 class="text-sm font-black text-slate-300 mb-2 uppercase tracking-widest text-center">Fortune 100 Penetration</h3>
+<div class="small-chart-container">
+<canvas id="f100Chart"></canvas>
+</div>
+</div>
+<div class="bg-slate-950 rounded-2xl p-6 border border-slate-800 shadow-inner flex flex-col items-center">
+<h3 class="text-sm font-black text-slate-300 mb-2 uppercase tracking-widest text-center">Fortune 500 Penetration</h3>
+<div class="small-chart-container">
+<canvas id="f500Chart"></canvas>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 overflow-hidden">
+<div class="bg-gradient-to-r from-ctiblue to-cticyan px-8 py-5">
+<h2 class="text-2xl font-black text-white flex items-center gap-3">
+<span class="text-3xl">🎯</span> Top 15 Elite Enterprise Targets
+</h2>
+</div>
+<div class="p-8 md:p-12">
+<p class="mb-8 text-slate-300 text-lg max-w-4xl font-medium">
+Prioritized by global capital budgets, local decision-making authority, and alignment with CTI's engineering methodology.
+</p>
+<div class="chart-container">
+<canvas id="targetsChart"></canvas>
+</div>
+</div>
+</section>
+
+<section class="bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 overflow-hidden">
+<div class="bg-slate-950 border-b border-slate-800 px-8 py-5">
+<h2 class="text-2xl font-black text-white flex items-center gap-3">
+<span class="text-3xl">🏢</span> The 9 Atlanta Mega-Verticals
+</h2>
+</div>
+<div class="p-8">
+<p class="mb-8 text-slate-400 text-base max-w-5xl">
+Atlanta is highly diversified. You cannot pitch a Logistics NOC with the same playbook used for a Broadcast Media Studio. Identify the vertical, understand the workflow, and deploy the specific CTI wedge.
+</p>
+
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+  
+  <div class="bg-slate-950 rounded-xl border border-slate-800 p-5 hover:border-cticyan transition">
+    <div class="flex items-center gap-3 mb-3 border-b border-slate-800 pb-3">
+      <span class="text-3xl">🏦</span>
+      <h3 class="font-black text-lg text-white">Finance & Security</h3>
+    </div>
+    <p class="text-xs text-cticyan font-bold uppercase tracking-wider mb-2">The Wedge: Zero-Trust & InfoSec</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">ICE / NYSE</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Global Payments</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Equifax</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Fiserv</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Invesco</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">LexisNexis</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Corpay</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">NCR</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Primerica</span>
+    </div>
+  </div>
+
+  <div class="bg-slate-950 rounded-xl border border-slate-800 p-5 hover:border-ctiblue transition">
+    <div class="flex items-center gap-3 mb-3 border-b border-slate-800 pb-3">
+      <span class="text-3xl">💻</span>
+      <h3 class="font-black text-lg text-white">Tech Mega-Hubs</h3>
+    </div>
+    <p class="text-xs text-ctiblue font-bold uppercase tracking-wider mb-2">The Wedge: Frictionless UI/UX</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Microsoft</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Google</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Walmart Tech</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Cisco</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Salesforce</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Intuit</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Visa</span>
+    </div>
+  </div>
+
+  <div class="bg-slate-950 rounded-xl border border-slate-800 p-5 hover:border-ctiorange transition">
+    <div class="flex items-center gap-3 mb-3 border-b border-slate-800 pb-3">
+      <span class="text-3xl">🛍️</span>
+      <h3 class="font-black text-lg text-white">Retail & QSR</h3>
+    </div>
+    <p class="text-xs text-ctiorange font-bold uppercase tracking-wider mb-2">The Wedge: Franchise Scale</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Home Depot</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Coca-Cola</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Inspire Brands</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Chick-fil-A</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Floor & Decor</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Newell Brands</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Asbury Auto</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Carter's</span>
+    </div>
+  </div>
+
+  <div class="bg-slate-950 rounded-xl border border-slate-800 p-5 hover:border-emerald-500 transition">
+    <div class="flex items-center gap-3 mb-3 border-b border-slate-800 pb-3">
+      <span class="text-3xl">📦</span>
+      <h3 class="font-black text-lg text-white">Logistics & Transport</h3>
+    </div>
+    <p class="text-xs text-emerald-500 font-bold uppercase tracking-wider mb-2">The Wedge: 24/7 Reliability</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Delta Air Lines</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">UPS</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Norfolk Southern</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Americold</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Veritiv</span>
+    </div>
+  </div>
+
+  <div class="bg-slate-950 rounded-xl border border-slate-800 p-5 hover:border-yellow-500 transition">
+    <div class="flex items-center gap-3 mb-3 border-b border-slate-800 pb-3">
+      <span class="text-3xl">⚙️</span>
+      <h3 class="font-black text-lg text-white">Manufacturing</h3>
+    </div>
+    <p class="text-xs text-yellow-500 font-bold uppercase tracking-wider mb-2">The Wedge: Ruggedized Comms</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">WestRock</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Georgia-Pacific</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Mohawk</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Novelis</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">AGCO</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Acuity Brands</span>
+    </div>
+  </div>
+
+  <div class="bg-slate-950 rounded-xl border border-slate-800 p-5 hover:border-red-500 transition">
+    <div class="flex items-center gap-3 mb-3 border-b border-slate-800 pb-3">
+      <span class="text-3xl">🏥</span>
+      <h3 class="font-black text-lg text-white">Healthcare Systems</h3>
+    </div>
+    <p class="text-xs text-red-500 font-bold uppercase tracking-wider mb-2">The Wedge: HIPAA & Integration</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Emory Healthcare</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Piedmont</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Elevance Health</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Wellstar</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Jackson Healthcare</span>
+    </div>
+  </div>
+
+  <div class="bg-slate-950 rounded-xl border border-slate-800 p-5 hover:border-purple-500 transition">
+    <div class="flex items-center gap-3 mb-3 border-b border-slate-800 pb-3">
+      <span class="text-3xl">⚡</span>
+      <h3 class="font-black text-lg text-white">Energy & Telecom</h3>
+    </div>
+    <p class="text-xs text-purple-400 font-bold uppercase tracking-wider mb-2">The Wedge: Grid Operations</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Southern Company</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Cox Enterprises</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">AT&T</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Southern Co. Gas</span>
+    </div>
+  </div>
+
+  <div class="bg-slate-950 rounded-xl border border-slate-800 p-5 hover:border-pink-500 transition">
+    <div class="flex items-center gap-3 mb-3 border-b border-slate-800 pb-3">
+      <span class="text-3xl">🎬</span>
+      <h3 class="font-black text-lg text-white">Media & Sports</h3>
+    </div>
+    <p class="text-xs text-pink-500 font-bold uppercase tracking-wider mb-2">The Wedge: Experiential AV</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">AMBSE (Falcons)</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">WBD (Turner)</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Atlanta Braves</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Gray Television</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Porsche NA</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Mercedes-Benz USA</span>
+    </div>
+  </div>
+
+  <div class="bg-slate-950 rounded-xl border border-slate-800 p-5 hover:border-slate-400 transition">
+    <div class="flex items-center gap-3 mb-3 border-b border-slate-800 pb-3">
+      <span class="text-3xl">🏗️</span>
+      <h3 class="font-black text-lg text-white">Wholesale & Real Estate</h3>
+    </div>
+    <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">The Wedge: Distributed Workforce</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">State Farm</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">PulteGroup</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">SiteOne</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">BlueLinx</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">GMS</span>
+      <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">Vestis</span>
+    </div>
+  </div>
+
+</div>
+</div>
+</section>
+
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 overflow-hidden">
+<div class="bg-slate-950 border-b border-slate-800 px-8 py-5">
+<h2 class="text-xl font-black text-white flex items-center gap-3">
+<span class="text-2xl">⚖️</span> Deal Qualification Profile
+</h2>
+</div>
+<div class="p-8">
+<p class="text-sm text-slate-400 mb-6">Score all enterprise pursuits against the CTI ideal profile to protect pre-sales engineering resources.</p>
+<div class="radar-container">
+<canvas id="qualificationChart"></canvas>
+</div>
+</div>
+</div>
+
+<div class="bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 overflow-hidden">
+<div class="bg-slate-950 border-b border-slate-800 px-8 py-5">
+<h2 class="text-xl font-black text-white flex items-center gap-3">
+<span class="text-2xl">🚪</span> Multithreaded Entry
+</h2>
+</div>
+<div class="p-8">
+<p class="text-sm text-slate-400 mb-8">Match your messaging to the specific operational pain of the buyer persona.</p>
+<div class="space-y-4">
+  <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-950 border border-slate-800">
+    <div class="text-3xl">💻</div>
+    <div>
+      <h4 class="font-bold text-white uppercase tracking-widest text-xs mb-1">Technical / InfoSec</h4>
+      <p class="text-sm text-slate-400">Lead with MAC pre-registration, APEx standards, and CTI Complete monitoring to reduce their helpdesk volume.</p>
+    </div>
+  </div>
+  <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-950 border border-slate-800">
+    <div class="text-3xl">🏗️</div>
+    <div>
+      <h4 class="font-bold text-white uppercase tracking-widest text-xs mb-1">Facilities / Real Estate</h4>
+      <p class="text-sm text-slate-400">Lead with offsite Rack Fabrication. We keep construction dust out of the tech and deploy with zero disruption.</p>
+    </div>
+  </div>
+  <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-950 border border-slate-800">
+    <div class="text-3xl">👔</div>
+    <div>
+      <h4 class="font-bold text-white uppercase tracking-widest text-xs mb-1">Economic / Procurement</h4>
+      <p class="text-sm text-slate-400">Lead with 42-office scale. We offer global SLA contracts that local integrators simply cannot match.</p>
+    </div>
+  </div>
+  <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-950 border border-slate-800">
+    <div class="text-3xl">🎓</div>
+    <div>
+      <h4 class="font-bold text-white uppercase tracking-widest text-xs mb-1">Operations / LOB</h4>
+      <p class="text-sm text-slate-400">Lead with UX. "One-touch" meeting equity, broadcast-grade training, and frictionless room technology.</p>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- AI PROSPECTING ASSISTANT WITH SECURE SETTINGS -->
+<section class="bg-[#0f172a] rounded-3xl shadow-[0_0_40px_rgba(6,182,212,0.15)] border-2 border-cticyan overflow-hidden relative">
+<div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+  <span class="text-9xl">🤖</span>
+</div>
+<div class="bg-[#0b1120] border-b border-slate-800 px-8 py-6 flex flex-col md:flex-row md:items-center justify-between relative z-20 gap-4">
+  <h2 class="text-2xl font-black text-white flex items-center gap-3">
+  <span class="text-cticyan text-3xl">✨</span> Master AI Prospecting Assistant
+  </h2>
+  <div class="flex items-center gap-3">
+    <span class="text-xs font-black uppercase tracking-widest bg-cticyan text-ctideep px-4 py-2 rounded shadow-md">Powered by Gemini</span>
+    <button onclick="toggleSettings()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-2 rounded-md transition border border-slate-700" title="API Key Settings">
+      ⚙️
+    </button>
+  </div>
+</div>
+
+<!-- Settings Modal (Hidden by default) -->
+<div id="settings-modal" class="hidden absolute top-20 right-8 bg-slate-900 border border-slate-700 shadow-2xl rounded-xl p-6 z-30 w-80">
+  <h3 class="font-bold text-white mb-2">API Key Configuration</h3>
+  <p class="text-xs text-slate-400 mb-4">Your Gemini API key is required to generate outreach. It is stored securely in your browser's local storage and never sent anywhere else.</p>
+  <input type="password" id="api-key-input" placeholder="Paste Gemini API Key here..." class="w-full bg-slate-800 text-white border border-slate-600 rounded p-2 text-sm mb-4 focus:outline-none focus:border-cticyan">
+  <div class="flex justify-end gap-2">
+    <button onclick="toggleSettings()" class="text-xs text-slate-400 hover:text-white px-3 py-1.5">Cancel</button>
+    <button onclick="saveApiKey()" class="bg-cticyan hover:bg-cyan-400 text-ctideep font-bold text-xs px-4 py-1.5 rounded">Save Key</button>
+  </div>
+</div>
+
+<div class="p-8 lg:p-12 grid grid-cols-1 xl:grid-cols-3 gap-10 relative z-10">
+  
+  <div class="space-y-6 xl:col-span-1">
+    <p class="text-slate-400 text-sm mb-6 leading-relaxed">Instantly generate hyper-personalized sales outreach. The AI is trained to aggressively pitch CTI's engineering-first, Fortune 250/500/1000 scale advantage.</p>
+    
+    <div>
+      <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Target Account (All 50+)</label>
+      <select id="ai-company" class="w-full bg-[#0b1120] text-white border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-cticyan focus:outline-none shadow-inner">
+        <optgroup label="Finance, Fintech & Security">
+            <option value="ICE / NYSE">ICE / NYSE</option>
+            <option value="Global Payments">Global Payments</option>
+            <option value="Equifax">Equifax</option>
+            <option value="Fiserv">Fiserv</option>
+            <option value="Invesco">Invesco</option>
+            <option value="LexisNexis">LexisNexis</option>
+            <option value="Primerica">Primerica</option>
+            <option value="Corpay">Corpay</option>
+            <option value="NCR Voyix / Atleos">NCR</option>
+            <option value="Assurant">Assurant</option>
+        </optgroup>
+        <optgroup label="Tech Mega-Hubs">
+            <option value="Microsoft">Microsoft</option>
+            <option value="Google">Google</option>
+            <option value="Walmart Global Tech">Walmart Global Tech</option>
+            <option value="Cisco Systems">Cisco Systems</option>
+            <option value="Salesforce">Salesforce</option>
+            <option value="Intuit / Mailchimp">Intuit (Mailchimp)</option>
+            <option value="Visa">Visa</option>
+        </optgroup>
+        <optgroup label="Retail & QSR">
+            <option value="The Home Depot">The Home Depot</option>
+            <option value="The Coca-Cola Company">The Coca-Cola Company</option>
+            <option value="Inspire Brands">Inspire Brands</option>
+            <option value="Chick-fil-A">Chick-fil-A</option>
+            <option value="Floor & Decor">Floor & Decor</option>
+            <option value="Newell Brands">Newell Brands</option>
+            <option value="Asbury Automotive">Asbury Automotive</option>
+            <option value="Carter's">Carter's</option>
+            <option value="Genuine Parts (NAPA)">Genuine Parts (NAPA)</option>
+            <option value="GoTo Foods">GoTo Foods</option>
+        </optgroup>
+        <optgroup label="Logistics & Transport">
+            <option value="Delta Air Lines">Delta Air Lines</option>
+            <option value="UPS">UPS</option>
+            <option value="Norfolk Southern">Norfolk Southern</option>
+            <option value="Americold Realty">Americold</option>
+            <option value="Veritiv">Veritiv</option>
+        </optgroup>
+        <optgroup label="Manufacturing">
+            <option value="WestRock">WestRock</option>
+            <option value="Georgia-Pacific">Georgia-Pacific</option>
+            <option value="Mohawk Industries">Mohawk Industries</option>
+            <option value="Novelis">Novelis</option>
+            <option value="AGCO">AGCO</option>
+            <option value="Graphic Packaging">Graphic Packaging</option>
+            <option value="Acuity Brands">Acuity Brands</option>
+        </optgroup>
+        <optgroup label="Healthcare Systems">
+            <option value="Emory Healthcare">Emory Healthcare</option>
+            <option value="Piedmont Healthcare">Piedmont Healthcare</option>
+            <option value="Elevance Health (Anthem)">Elevance Health</option>
+            <option value="Wellstar">Wellstar</option>
+            <option value="Jackson Healthcare">Jackson Healthcare</option>
+        </optgroup>
+        <optgroup label="Energy & Telecom">
+            <option value="Southern Company">Southern Company</option>
+            <option value="Cox Enterprises">Cox Enterprises</option>
+            <option value="AT&T">AT&T</option>
+            <option value="Southern Company Gas">Southern Co. Gas</option>
+        </optgroup>
+        <optgroup label="Media & Sports">
+            <option value="AMBSE (Atlanta Falcons)">AMBSE (Falcons/MB Stadium)</option>
+            <option value="Warner Bros. Discovery">Warner Bros. Discovery</option>
+            <option value="Atlanta Braves">Atlanta Braves</option>
+            <option value="Gray Television">Gray Television</option>
+            <option value="Porsche North America">Porsche NA</option>
+            <option value="Mercedes-Benz USA">Mercedes-Benz USA</option>
+        </optgroup>
+        <optgroup label="Wholesale & Real Estate">
+            <option value="State Farm">State Farm</option>
+            <option value="PulteGroup">PulteGroup</option>
+            <option value="SiteOne Landscape Supply">SiteOne</option>
+            <option value="BlueLinx Holdings">BlueLinx</option>
+            <option value="GMS">GMS</option>
+            <option value="Vestis">Vestis</option>
+            <option value="Rollins (Orkin)">Rollins</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Buyer Persona</label>
+      <select id="ai-persona" class="w-full bg-[#0b1120] text-white border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-cticyan focus:outline-none shadow-inner">
+        <option value="Economic Buyer (CFO/Finance)">Economic Buyer (CFO/Finance)</option>
+        <option value="Technical Buyer (CIO/IT Dir)">Technical Buyer (CIO/IT Dir)</option>
+        <option value="Facilities Leader (VP Real Estate)">Facilities Leader (VP Real Estate)</option>
+        <option value="Security Leader (CISO/InfoSec)">Security Leader (CISO/InfoSec)</option>
+        <option value="Procurement (Purchasing Head)">Procurement (Purchasing Head)</option>
+        <option value="Line of Business (HR/Ops/Sales)">Line of Business (HR/Ops/Sales)</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Asset Needed</label>
+      <select id="ai-asset" class="w-full bg-[#0b1120] text-white border border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-cticyan focus:outline-none shadow-inner">
+        <option value="Cold Outreach Email Draft">Cold Outreach Email Draft</option>
+        <option value="Discovery Call Script (5 Questions)">Discovery Call Script</option>
+        <option value="Value Proposition Elevator Pitch">Elevator Pitch</option>
+      </select>
+    </div>
+
+    <button onclick="generateStrategy()" class="w-full bg-gradient-to-r from-cticyan to-ctiblue hover:from-cyan-400 hover:to-blue-500 text-ctideep font-black text-lg py-4 px-4 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.4)] transform transition active:scale-95 flex items-center justify-center gap-2 mt-6">
+      ✨ Generate AI Strategy
+    </button>
+  </div>
+
+  <div class="xl:col-span-2 flex flex-col h-full">
+    <div class="bg-[#060a13] rounded-2xl border border-slate-800 p-8 flex-grow relative shadow-inner min-h-[450px]">
+      <div id="ai-output" class="text-slate-300 text-base leading-relaxed whitespace-pre-wrap font-sans h-full overflow-y-auto pr-2 hide-scrollbar">
+        <div class="flex flex-col h-full items-center justify-center text-slate-600 text-center space-y-4">
+          <div class="text-6xl opacity-30">⚡</div>
+          <div class="font-medium text-sm">Configure your target parameters on the left and click Generate. <br/>(Make sure you have saved your API Key in the settings ⚙️ first).</div>
+        </div>
+      </div>
+      <button id="ai-copy-btn" onclick="copyOutput()" class="hidden absolute top-6 right-6 bg-slate-800 hover:bg-slate-700 text-cticyan text-xs font-black uppercase tracking-widest py-2.5 px-5 rounded border border-slate-600 shadow-lg transition z-20">
+        📋 Copy
+      </button>
+    </div>
+  </div>
+
+</div>
+</section>
+
+</main>
+
+<footer class="bg-[#060a13] text-slate-500 py-12 text-center text-xs font-bold uppercase tracking-widest border-t border-slate-800 mt-12">
+<div class="max-w-7xl mx-auto px-4">
+<p>CTI Internal Confidential. Complete Atlanta Enterprise Master Matrix.</p>
+</div>
+</footer>
+
+<script>
+function wrapLabel(text) {
+if (!text || typeof text !== 'string') return text;
+if (text.length <= 16) return text;
+const words = text.split(' ');
+const lines = [];
+let currentLine = words[0] || '';
+
+for (let i = 1; i < words.length; i++) {
+if (currentLine.length + words[i].length + 1 <= 16) {
+currentLine += ' ' + words[i];
+} else {
+lines.push(currentLine);
+currentLine = words[i];
+}
+}
+lines.push(currentLine);
+return lines;
+}
+
+const tooltipConfig = {
+callbacks: {
+title: function(tooltipItems) {
+const item = tooltipItems[0];
+let label = item.chart.data.labels[item.dataIndex];
+if (Array.isArray(label)) {
+return label.join(' ');
+} else {
+return label;
+}
+}
+}
+};
+
+const f100Ctx = document.getElementById('f100Chart').getContext('2d');
+new Chart(f100Ctx, {
+type: 'doughnut',
+data: {
+labels: ['CTI Clients', 'Other'],
+datasets: [{
+data: [58, 42],
+backgroundColor: ['#06B6D4', '#1E293B'],
+borderWidth: 0,
+cutout: '80%'
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+legend: { display: false },
+tooltip: tooltipConfig
+}
+},
+plugins: [{
+id: 'centerText100',
+beforeDraw: function(chart) {
+var width = chart.width, height = chart.height, ctx = chart.ctx;
+ctx.restore();
+var fontSize = (height / 70).toFixed(2);
+ctx.font = "900 " + fontSize + "em Inter, sans-serif";
+ctx.textBaseline = "middle";
+ctx.fillStyle = "#FFFFFF";
+var text = "58%", textX = Math.round((width - ctx.measureText(text).width) / 2), textY = height / 2;
+ctx.fillText(text, textX, textY);
+ctx.save();
+}
+}]
+});
+
+const f500Ctx = document.getElementById('f500Chart').getContext('2d');
+new Chart(f500Ctx, {
+type: 'doughnut',
+data: {
+labels: ['CTI Clients', 'Other'],
+datasets: [{
+data: [43, 57],
+backgroundColor: ['#2563EB', '#1E293B'],
+borderWidth: 0,
+cutout: '80%'
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+legend: { display: false },
+tooltip: tooltipConfig
+}
+},
+plugins: [{
+id: 'centerText500',
+beforeDraw: function(chart) {
+var width = chart.width, height = chart.height, ctx = chart.ctx;
+ctx.restore();
+var fontSize = (height / 70).toFixed(2);
+ctx.font = "900 " + fontSize + "em Inter, sans-serif";
+ctx.textBaseline = "middle";
+ctx.fillStyle = "#FFFFFF";
+var text = "43%", textX = Math.round((width - ctx.measureText(text).width) / 2), textY = height / 2;
+ctx.fillText(text, textX, textY);
+ctx.save();
+}
+}]
+});
+
+const rawTargetLabels = [
+'Delta Air Lines', 
+'UPS', 
+'Cox Enterprises', 
+'The Home Depot', 
+'The Coca-Cola Co.', 
+'ICE / NYSE', 
+'Inspire Brands',
+'Primerica',
+'Emory Healthcare',
+'AMBSE (Falcons)',
+'WBD (Turner)',
+'Atlanta Braves',
+'State Farm',
+'Walmart Global Tech',
+'Equifax'
+];
+
+const targetScores = [10, 9.5, 9.5, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 8.5];
+
+const barColors = [
+'#10B981', 
+'#10B981', 
+'#06B6D4', 
+'#06B6D4', 
+'#10B981', 
+'#06B6D4', 
+'#06B6D4', 
+'#06B6D4', 
+'#06B6D4', 
+'#06B6D4', 
+'#06B6D4', 
+'#06B6D4', 
+'#06B6D4', 
+'#06B6D4', 
+'#2563EB' 
+];
+
+const wrappedTargetLabels = rawTargetLabels.map(wrapLabel);
+
+const targetsCtx = document.getElementById('targetsChart').getContext('2d');
+new Chart(targetsCtx, {
+type: 'bar',
+data: {
+labels: wrappedTargetLabels,
+datasets: [{
+label: 'Priority Score (1-10)',
+data: targetScores,
+backgroundColor: barColors,
+borderRadius: 4,
+barPercentage: 0.6
+}]
+},
+options: {
+indexAxis: 'y',
+responsive: true,
+maintainAspectRatio: false,
+scales: {
+x: { display: true, max: 10, min: 8, grid: { color: '#1E293B' }, ticks: { font: { family: 'Inter', weight: 'bold' }, color: '#94A3B8' } },
+y: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 12, weight: 'bold' }, color: '#F8FAFC' } }
+},
+plugins: {
+legend: { display: false },
+tooltip: tooltipConfig
+}
+}
+});
+
+const qualCtx = document.getElementById('qualificationChart').getContext('2d');
+new Chart(qualCtx, {
+type: 'radar',
+data: {
+labels: [wrapLabel('Exec DM Access'), wrapLabel('Standardization Need'), wrapLabel('Hard Timeline'), wrapLabel('Scale/SLA Required'), wrapLabel('InfoSec Rigor')],
+datasets: [{
+label: 'Target Enterprise Win',
+data: [4, 4, 4, 4, 4],
+backgroundColor: 'rgba(6, 182, 212, 0.2)',
+borderColor: '#06B6D4',
+pointBackgroundColor: '#0F172A',
+pointBorderColor: '#06B6D4',
+pointHoverBackgroundColor: '#06B6D4',
+pointHoverBorderColor: '#fff',
+borderWidth: 2
+},
+{
+label: 'Minimum Pursuit Base',
+data: [2, 3, 2, 3, 2],
+backgroundColor: 'rgba(37, 99, 235, 0.1)',
+borderColor: '#2563EB',
+borderDash: [5, 5],
+pointBackgroundColor: '#0F172A',
+pointBorderColor: '#2563EB',
+borderWidth: 2
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+scales: {
+r: {
+angleLines: { color: '#1E293B' },
+grid: { color: '#1E293B', circular: true },
+pointLabels: { font: { family: 'Inter', size: 10, weight: 'bold' }, color: '#94A3B8' },
+ticks: { beginAtZero: true, max: 4, stepSize: 1, display: false }
+}
+},
+plugins: {
+legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, color: '#F8FAFC', font: {family: 'Inter', weight: 'bold'} } },
+tooltip: tooltipConfig
+}
+}
+});
+
+// API Key Management & Local Storage
+function toggleSettings() {
+  const modal = document.getElementById('settings-modal');
+  modal.classList.toggle('hidden');
+  
+  if (!modal.classList.contains('hidden')) {
+    const savedKey = localStorage.getItem('gemini_api_key');
+    if (savedKey) {
+      document.getElementById('api-key-input').value = savedKey;
+    }
+  }
+}
+
+function saveApiKey() {
+  const inputKey = document.getElementById('api-key-input').value.trim();
+  if (inputKey) {
+    localStorage.setItem('gemini_api_key', inputKey);
+    toggleSettings();
+    // Optional: show a quick success toast/alert here if desired
+  }
+}
+
+async function fetchWithRetry(url, options, retries = 5) {
+  const delays = [1000, 2000, 4000, 8000, 16000];
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (e) {
+      if (i === retries - 1) throw e;
+      await new Promise(res => setTimeout(res, delays[i]));
+    }
+  }
+}
+
+async function generateStrategy() {
+  const apiKey = localStorage.getItem('gemini_api_key');
+  const outputDiv = document.getElementById('ai-output');
+  
+  if (!apiKey) {
+    outputDiv.innerHTML = `<div class="flex h-full items-center justify-center"><div class="text-orange-400 p-6 bg-orange-900/20 border border-orange-500/50 rounded-xl text-center shadow-lg"><strong class="text-lg">API Key Missing</strong><br/>Please click the ⚙️ icon above to save your Gemini API Key.</div></div>`;
+    toggleSettings();
+    return;
+  }
+
+  const company = document.getElementById('ai-company').value;
+  const persona = document.getElementById('ai-persona').value;
+  const assetType = document.getElementById('ai-asset').value;
+  const copyBtn = document.getElementById('ai-copy-btn');
+  
+  outputDiv.innerHTML = '<div class="flex h-full items-center justify-center space-x-4 animate-pulse"><span class="text-4xl">⚡</span><span class="text-cticyan font-bold text-lg">Synthesizing CTI playbook...</span></div>';
+  copyBtn.classList.add('hidden');
+
+  const systemInstruction = `You are a top-performing, consultative enterprise account executive at CTI. CTI's core differentiator is that we are an engineering-first company with a massive footprint supporting Fortune 250, 500, and 1000 clients. We generate $400M in revenue across 42 global offices.
+  You format your responses using clean, modern HTML tags (like <p>, <ul>, <li>, <strong>) to render beautifully in a dark-mode web UI. DO NOT wrap your response in markdown code blocks.
+  Use line breaks and paragraph spacing effectively.`;
+  
+  const prompt = `Write a highly tailored, professional ${assetType} directed at the ${persona} for a prospect at ${company}.
+  
+  CRITICAL INSTRUCTIONS:
+  - Do not pitch "generic AV equipment". Pitch business outcomes, scale, and workflow integration.
+  - Tailor the use-cases strictly to the industry of ${company}. (e.g. NOCs for logistics/finance, clinical spaces for healthcare, broadcast for media, experiential for retail).
+  - Naturally weave in CTI's core differentiators tailored to their specific workflow:
+    1) For IT/Security: Emphasize zero-trust architecture, MAC address pre-registration, VLAN segmentation, and remote monitoring (CTI Complete) to reduce helpdesk tickets.
+    2) For Facilities/Real Estate: Emphasize exact CAD/power specs pre-drywall, coordination with GCs, and zero-disruption deployments using the St. Louis Rack Fabrication Center.
+    3) For Operations/HR/Training: Emphasize "one-touch" meeting equity, UI/UX simplification, and user adoption.
+    4) Overall: Pitch the "CTI Difference" - we are an engineering-first company with a massive footprint successfully deploying to Fortune 250, 500, and 1000 clients. We bridge the enterprise "division of labor" to deliver true Unified Communication standards globally.
+  
+  Make it punchy, confident, and action-oriented. Explicitly mention their industry nuances.`;
+
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    systemInstruction: { parts: [{ text: systemInstruction }] }
+  };
+
+  try {
+    const data = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    
+    let text = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated. Please check if your API key is valid.";
+    text = text.replace(/```html/g, '').replace(/```/g, '').trim();
+    
+    outputDiv.innerHTML = `<div class="space-y-5 text-slate-300 text-sm md:text-base">${text}</div>`;
+    copyBtn.classList.remove('hidden');
+  } catch (error) {
+    outputDiv.innerHTML = `<div class="flex h-full items-center justify-center"><div class="text-red-400 p-6 bg-red-900/20 border border-red-500/50 rounded-xl text-center shadow-lg"><strong class="text-lg">Connection Error</strong><br/>Failed to generate strategy. Please verify your API Key in settings.</div></div>`;
+  }
+}
+
+function copyOutput() {
+  const outputDiv = document.getElementById('ai-output');
+  const range = document.createRange();
+  range.selectNodeContents(outputDiv);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+  document.execCommand('copy');
+  selection.removeAllRanges();
+  
+  const copyBtn = document.getElementById('ai-copy-btn');
+  copyBtn.innerHTML = '✨ Copied!';
+  copyBtn.classList.replace('bg-slate-800', 'bg-cticyan');
+  copyBtn.classList.replace('text-cticyan', 'text-ctideep');
+  copyBtn.classList.replace('border-slate-600', 'border-cticyan');
+  
+  setTimeout(() => { 
+    copyBtn.innerHTML = '📋 Copy'; 
+    copyBtn.classList.replace('bg-cticyan', 'bg-slate-800');
+    copyBtn.classList.replace('text-ctideep', 'text-cticyan');
+    copyBtn.classList.replace('border-cticyan', 'border-slate-600');
+  }, 2000);
+}
+</script>
+</body>
+</html>
